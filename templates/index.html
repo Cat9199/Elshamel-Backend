@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Elshamel Lives - بث مباشر والاجتماعات</title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.1/css/boxicons.min.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap">
+      <!-- link boxicon -->
+      <link rel="stylesheet" href="https://unpkg.com/tailwindcss/dist/tailwind.min.css">
+      <link rel="icon" href="https://k.top4top.io/p_3149wqoa11.png" type="image/png">
+      <style>
+            body {
+                  font-family: 'Cairo', sans-serif;
+                  background-color: #F6F5F5;
+                  color: #333333;
+                  margin: 0;
+                  overflow: hidden;
+            }
+
+            header,
+            footer {
+                  background-color: #1a1a1a;
+                  position: fixed;
+                  width: 100%;
+                  z-index: 10;
+            }
+
+            header {
+                  top: 0;
+            }
+
+            footer {
+                  bottom: 0;
+            }
+
+            main {
+                  padding-top: 4rem;
+                  padding-bottom: 4rem;
+                  height: calc(100vh - 8rem);
+            }
+
+            #twitch,
+            #meeting {
+                  width: 100%;
+                  height: 720px;
+                  display: none;
+            }
+
+            /* Set specific height */
+      </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+      <header class="p-4 shadow-md text-white">
+            <div class="container mx-auto flex justify-between items-center">
+                  <img src="https://k.top4top.io/p_3149wqoa11.png" alt="Elshamel Logo" width="50">
+                  <h1 class="text-xl font-bold">Elshamel Lives</h1>
+                  <div>{{ username }}</div>
+            </div>
+      </header>
+      <main class="flex-grow">
+            <div id="twitch">
+                  <div id="twitch-embed"></div>
+            </div>
+            <div id="meeting" class="hidden">
+                  <div id="jaas-container"></div>
+            </div>
+            <br>
+            <center>
+                  <div>
+                        <button onclick="showTwitch()"
+                              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                              <!-- live icon with flash effict  -->
+                              <i class='bx bx-tv bx-flashing'></i> البث المباشر
+                        </button>
+                        </button>
+                        <button onclick="showMeeting()"
+                              class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+
+                              <!-- mic icon  -->
+                              <i class='bx bxs-microphone'></i>
+                              تكلم مع المحاضر
+                        </button>
+                  </div>
+            </center>
+      </main>
+      <footer class="bg-gray-900 p-4 text-center text-white">
+            <p>&copy; 2024 ElshamelLives. جميع الحقوق محفوظة.</p>
+      </footer>
+      <script src="https://player.twitch.tv/js/embed/v1.js"></script>
+      <script src='https://8x8.vc/external_api.js'></script>
+      <script>
+            var twitchPlayer;
+            var jitsiAPI;
+            function showTwitch() {
+                  document.getElementById('twitch').style.display = 'block';
+                  document.getElementById('meeting').style.display = 'none';
+                  if (!twitchPlayer) {
+                        twitchPlayer = new Twitch.Player("twitch-embed", {
+                              channel: "abdelrahman_nasr9",
+                              layout: "video",
+                              width: "100%",
+                              height: "720px",
+                              autoplay: true
+                        });
+                  }
+            }
+            function showMeeting() {
+                  document.getElementById('twitch').style.display = 'none';
+                  document.getElementById('meeting').style.display = 'block';
+                  if (!jitsiAPI) {
+                        jitsiAPI = new JitsiMeetExternalAPI("8x8.vc", {
+                              roomName: "vpaas-magic-cookie-8b81ef1d97ca451aa2adfef1a79c4e98/SampleAppNotoriousTroublesDifferStill",
+                              parentNode: document.getElementById('jaas-container'),
+                              width: "100%",
+                              height: "720px", // Maintain the fixed height of 720px as per your requirement
+                              interfaceConfigOverwrite: {
+                                    TOOLBAR_BUTTONS: ['microphone', 'raisehand', 'hangup'],
+                                    DEFAULT_REMOTE_DISPLAY_NAME: 'Visitor'
+                              },
+                              configOverwrite: {
+                                    prejoinPageEnabled: false,
+                                    startWithAudioMuted: true,
+                                    startWithVideoMuted: true // Turn off the camera by default
+                              }
+                        });
+                  }
+            }
+
+            window.onload = showTwitch; 
+      </script>
+</body>
+
+</html>
